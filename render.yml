@@ -1,0 +1,18 @@
+services:
+  - type: web
+    name: expense-splitter-backend
+    env: node
+    plan: free
+    buildCommand: |
+      corepack enable
+      corepack prepare yarn@4.9.2 --activate
+      yarn install
+    startCommand: yarn dev
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: MONGODB_URI
+        sync: false
+      - key: PORT
+        value: 8080
+
