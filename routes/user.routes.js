@@ -12,6 +12,6 @@ const router = express.Router();
  *       200:
  *         description: Used to register user
  */
-router.post('/', register)
+router.post('/register', register)
 
 export default router;
