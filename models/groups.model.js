@@ -8,8 +8,8 @@ const groupsSchema = new mongoose.Schema({
 const Groups = mongoose.model('Groups', groupsSchema)
 
 const groupMembers = new mongoose.Schema({
-    userid: [{ type: Schema.Types.ObjectId, ref: User }],
-    groupId: { type: Schema.Types.ObjectId, ref: Groups }
+    userId: [{ type: mongoose.Schema.Types.ObjectId, ref: User }],
+    groupId: { type: mongoose.Schema.Types.ObjectId, ref: Groups }
 }, { timestamps: true })
 
 const GroupMembers = mongoose.model('GroupMembers', groupMembers)

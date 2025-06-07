@@ -8,6 +8,19 @@ const options = {
             version: '1.0.0',
             description: 'API documentation for the Expense Splitter App'
         },
+        components: {
+            schemas: {
+                Group: {
+                    type: 'object',
+                    properties: {
+                        _id: { type: 'string', example: '60d21b4667d0d8992e610c85' },
+                        name: { type: 'string', example: 'Trip to Goa' },
+                        createdAt: { type: 'string', format: 'date-time' },
+                        updatedAt: { type: 'string', format: 'date-time' },
+                    },
+                },
+            },
+        },
     },
     apis: ['./routes/*.js'],
 };
