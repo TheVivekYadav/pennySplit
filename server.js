@@ -4,6 +4,7 @@ import connectDB from './config/db.js';
 import groupRoutes from './routes/expense.routes.js';
 import userRoutes from './routes/user.routes.js';
 
+import { listAllGroups } from "./controllers/group.controller.js";
 import { swaggerSpec, swaggerUi } from './swagger.js';
 
 dotenv.config();
@@ -16,6 +17,7 @@ server.use(express.json())
 // user routes
 server.use('/api/auth/users', userRoutes);
 server.use('/api/groups', groupRoutes);
+server.use('/api/groups', listAllGroups);
 
 // Swagger route
 server.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
