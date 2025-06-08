@@ -1,4 +1,4 @@
-import { Groups, GroupMembers } from "../models/groups.model.js";
+import { GroupMembers, Groups } from "../models/groups.model.js";
 
 const listAllGroups = async (req, res) => {
     try {
@@ -15,7 +15,7 @@ const listAllGroups = async (req, res) => {
 const createGroup = async (req, res) => {
     try {
         const groupDetails = req.body;
-        const userId = req.user.userId //will get userId from middleware
+        const userId = req.user._id //will get userId from middleware
         if (!userId) {
             return res.status(401).json({ message: "Please login first." });
         }
@@ -121,4 +121,5 @@ const removeMember = async (req, res) => {
     }
 }
 
-export { listAllGroups, createGroup, getGroupbyId, updateGroup, addMember, removeMember };
+export { addMember, createGroup, getGroupbyId, listAllGroups, removeMember, updateGroup };
+
