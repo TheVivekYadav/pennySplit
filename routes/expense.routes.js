@@ -1,5 +1,9 @@
-import express from 'express';
-import { addUsersToGroup, createExpense, createGroup } from '../controllers/expense.controller.js';
+import express from "express";
+import {
+  addUsersToGroup,
+  createExpense,
+  createGroup,
+} from "../controllers/expense.controller.js";
 const router = express.Router();
 
 /**
@@ -34,7 +38,7 @@ const router = express.Router();
  *                 newGroup:
  *                   $ref: '#/components/schemas/Group'
  */
-router.post('/create', createGroup);
-router.post('/add', addUsersToGroup);
-router.post('/expense', createExpense)
+router.post("/create", createGroup);
+router.post("/add", addUsersToGroup);
+router.post("/expense", createExpense);
 export default router;
