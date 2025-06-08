@@ -1,5 +1,5 @@
 import express from 'express';
-import { register } from '../controllers/user.controller.js';
+import { login, refreshAccessToken, register, verify } from '../controllers/user.controller.js';
 const router = express.Router();
 
 /**
@@ -13,5 +13,7 @@ const router = express.Router();
  *         description: Used to register user
  */
 router.post('/register', register)
-
+router.post('/login', login)
+router.post('/refresh-access', refreshAccessToken)
+router.get('/verify', verify)
 export default router;
