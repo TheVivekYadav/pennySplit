@@ -136,7 +136,6 @@ const logout = (req, res) => {
       path: "/",
     });
 
-    // Optionally, send a success message
     return res.status(200).json({ message: "Logged out successfully" });
   } catch (error) {
     console.error("Logout error:", error);
