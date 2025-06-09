@@ -1,4 +1,5 @@
 import { GroupMembers, Groups } from "../models/groups.model.js";
+import { createGroupSchema,updateGroupSchema } from "../validations/group.validation.js";
 
 const listAllGroups = async (req, res) => {
   try {
@@ -14,15 +15,15 @@ const listAllGroups = async (req, res) => {
 const createGroup = async (req, res) => {
   try {
     const groupDetails = req.body;
+    const parsed = createGroupSchema.safeParse(groupDetails);
+    if (!parsed.success) {
+      return res.status(400).json({ errors: parsed.error.errors });
+    }
     const userId = req.user._id; //will get userId from middleware
     if (!userId) {
       return res.status(401).json({ message: "Please login first." });
     }
-    const nameCheck = await Groups.findOne({ name: groupDetails.name });
-    if (nameCheck) {
-      return res.status(400).json({ message: "Group name already exists." });
-    }
-    const newGrp = await Groups.create(groupDetails);
+    const newGrp = await Groups.create(parsed.data);
     const memGrp = await GroupMembers.create({
       groupId: newGrp._id,
       userId,
@@ -52,7 +53,10 @@ const updateGroup = async (req, res) => {
     const groupId = req.params.id;
     const updatedDetails = req.body;
     const userId = req.user._id;
-
+    const parsed = updateGroupSchema.safeParse(updatedDetails);
+    if (!parsed.success) {
+      return res.status(400).json({ errors: parsed.error.errors });
+    }
     const checkAdmin = await GroupMembers.findOne({ userId, groupId });
     if (!checkAdmin) {
       return res
@@ -66,7 +70,7 @@ const updateGroup = async (req, res) => {
         .json({ message: "Only admins can update the group." });
     }
 
-    const updatedGrp = await Groups.findByIdAndUpdate(groupId, updatedDetails, {
+    const updatedGrp = await Groups.findByIdAndUpdate(groupId, parsed.data, {
       new: true,
     });
     if (!updatedGrp) {
