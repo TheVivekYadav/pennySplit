@@ -1,6 +1,7 @@
 import express from "express";
 import {
   login,
+  logout,
   refreshAccessToken,
   register,
   verify,
@@ -103,4 +104,5 @@ router.post("/refresh-access", refreshAccessToken);
  *         description: User is authenticated
  */
 router.get("/verify", verify);
+router.get("/logout", logout);
 export default router;

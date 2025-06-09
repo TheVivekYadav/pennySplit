@@ -121,4 +121,29 @@ const verify = async (req, res) => {
   res.status(200).json({ message: "success", user });
 };
 
-export { login, refreshAccessToken, register, verify };
+const logout = (req, res) => {
+  try {
+    res.clearCookie("token", {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+      path: "/",
+    });
+    res.clearCookie("refreshToken", {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+      path: "/",
+    });
+
+    // Optionally, send a success message
+    return res.status(200).json({ message: "Logged out successfully" });
+  } catch (error) {
+    console.error("Logout error:", error);
+    return res.status(500).json({ error: "Failed to logout" });
+  }
+};
+
+export default logout;
+
+export { login, logout, refreshAccessToken, register, verify };
