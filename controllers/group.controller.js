@@ -2,7 +2,7 @@ import { GroupMembers, Groups } from "../models/groups.model.js";
 
 const listAllGroups = async (req, res) => {
   try {
-    const userId = req.user.userId; //will get userId from middleware
+    const userId = req.user._id; //will get userId from middleware
     const allGroups = await GroupMembers.find({ userId }).populate("groupId");
     const result = allGroups.map((a) => a.groupId);
     res.status(200).json({ message: "success", groups: result });
@@ -28,7 +28,7 @@ const createGroup = async (req, res) => {
       userId,
       isAdmin: true,
     });
-    res.status(200).json({ message: "success", group: newGrp });
+    res.status(201).json({ message: "success", group: newGrp });
   } catch (err) {
     res.status(500).json({ message: "backend error", error: err.message });
   }
@@ -51,7 +51,7 @@ const updateGroup = async (req, res) => {
   try {
     const groupId = req.params.id;
     const updatedDetails = req.body;
-    const userId = req.user.userId;
+    const userId = req.user._id;
 
     const checkAdmin = await GroupMembers.findOne({ userId, groupId });
     if (!checkAdmin) {
@@ -84,7 +84,7 @@ const addMember = async (req, res) => {
     const memberToAdd = req.body.userId;
 
     const groupId = req.params.id;
-    const userId = req.user.userId;
+    const userId = req.user._id;
 
     const checkAdmin = await GroupMembers.findOne({ userId, groupId });
     if (!checkAdmin) {
@@ -120,7 +120,7 @@ const removeMember = async (req, res) => {
   try {
     const memberToRemove = req.params.userId;
     const groupId = req.params.id;
-    const userId = req.user.userId;
+    const userId = req.user._id;
 
     const checkAdmin = await GroupMembers.findOne({ userId, groupId });
     if (!checkAdmin) {
@@ -153,3 +153,5 @@ export {
   removeMember,
   updateGroup,
 };
+
+// write test cases for group controller
