@@ -4,7 +4,7 @@ import mongoose from "mongoose";
 import request from "supertest";
 import server from "../server.js";
 
-dotenv.config();
+dotenv.config({ path: ".env.test" });
 
 let mongo;
 
