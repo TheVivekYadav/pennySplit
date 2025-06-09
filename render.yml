@@ -15,4 +15,3 @@ services:
         sync: false
       - key: PORT
         value: 8080
-
