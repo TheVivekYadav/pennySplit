@@ -20,12 +20,13 @@ const userSchema = new mongoose.Schema(
       maxlength: [128, "Password must be at most 128 characters"],
     },
     avatarUrl: String,
+    emailVerificationToken: { type: String },
     loginCount: {
       type: Number,
       default: 0,
     },
     isAdmin: { type: Boolean, default: false },
-    isActive: { type: Boolean, default: true }
+    isActive: { type: Boolean, default: false }
   },
   { timestamps: true },
 );

@@ -1,6 +1,7 @@
 import express from "express";
 import {
   deleteUserById,
+  emailVerification,
   getAllUsers,
   login,
   logout,
@@ -116,5 +117,7 @@ router.post("/reset-password", isLoggedIn, resetPassword);
 // Admin level
 router.get('/get-all-users', isLoggedIn, isAdmin, getAllUsers);
 router.post('/:id/update-role/:role', isLoggedIn, isAdmin, updateRole);
-router.post('/:id/delete-user', isLoggedIn, isAdmin, deleteUserById)
+router.post('/:id/delete-user', isLoggedIn, isAdmin, deleteUserById);
+router.post('/:token/email-verify', emailVerification);
+
 export default router;

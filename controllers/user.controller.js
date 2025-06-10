@@ -1,5 +1,9 @@
+import { v4 as uuidv4 } from 'uuid';
 import User from "../models/user.model.js";
 import { softDeleteUserById, updateUserRole } from '../service/auth.service.js';
+import { sendMail } from '../utils/mail/mailService.js';
+import { emailVerificationMailGenContent } from '../utils/mail/mailTemplates.js';
+import { generateLink } from "../utils/url.js";
 import { LoginSchema, UserSchema } from "../validations/user.validation.js";
 
 const register = async (req, res) => {
@@ -15,9 +19,17 @@ const register = async (req, res) => {
       return res.status(409).json({ message: "User already exists" });
     }
 
-    const newUser = await new User(parsed.data);
+    const emailVerificationToken = await uuidv4();
+    const newUser = await new User({ ...parsed.data, emailVerificationToken, isActive: false });
 
     await newUser.save();
+
+    const verificationLink = generateLink(`/api/auth/verify/${emailVerificationToken}/email`)
+    await sendMail({
+      email: parsed.data.email,
+      subject: "Verify you Email",
+      mailGenContent: emailVerificationMailGenContent(newUser.name, verificationLink)
+    })
 
     return res.status(201).json({
       message: "User registered successfully",
@@ -147,11 +159,30 @@ const logout = (req, res) => {
     console.error("Logout error:", error);
     return res.status(500).json({ error: "Failed to logout" });
   }
-};
+}
 
+const emailVerification = async (req, res) => {
+  try {
+
+    const token = req.params.token;
+    const user = await User.findOne({ emailVerificationToken: token });
+    if (!user) return res.status(404).json({ message: 'Invalid token' });
+
+    user.isVerified = true;
+    user.emailVerificationToken = undefined;
+    await user.save();
+
+    res.status(200).json({ message: 'Email verified successfully' });
+  } catch (error) {
+    res.status(404).json({ "message": "Email verification failed", error: error.message });
+  }
+
+}
 
 //  forgot password
 const forgotPassword = async (req, res) => {
+  // send reset mail to reset password
+
 }
 
 const resetPassword = async (req, res) => {
@@ -179,7 +210,7 @@ const resetPassword = async (req, res) => {
     console.error("Reset Password Error:", error.message);
     res.status(500).json({ message: "Error in resetting password", error: error.message });
   }
-};
+}
 
 
 // Admin level controller
@@ -202,15 +233,6 @@ const getAllUsers = async (req, res) => {
   }
 }
 
-
-// Get All user by id
-const getUserById = async (req, res) => {
-  try {
-
-  } catch (error) {
-
-  }
-}
 
 // delete user by id
 const deleteUserById = async (req, res) => {
@@ -267,8 +289,7 @@ const updateRole = async (req, res) => {
 export default logout;
 
 export {
-  deleteUserById,
-  getAllUsers,
+  deleteUserById, emailVerification, getAllUsers,
   login,
   logout,
   refreshAccessToken,
