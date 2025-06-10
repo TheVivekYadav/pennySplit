@@ -1,11 +1,17 @@
 import express from "express";
 import {
+  deleteUserById,
+  getAllUsers,
   login,
   logout,
   refreshAccessToken,
   register,
-  verify,
+  resetPassword,
+  updateRole,
+  verify
 } from "../controllers/user.controller.js";
+import { isAdmin, isLoggedIn } from '../middleware/auth.js';
+
 const router = express.Router();
 
 /**
@@ -91,7 +97,7 @@ router.post("/login", login);
  *       404:
  *         description: User not found
  */
-router.post("/refresh-access", refreshAccessToken);
+router.post("/refresh-access", isLoggedIn, refreshAccessToken);
 /**
  * @swagger
  * /api/auth/users/verify:
@@ -103,6 +109,12 @@ router.post("/refresh-access", refreshAccessToken);
  *       200:
  *         description: User is authenticated
  */
-router.get("/verify", verify);
-router.get("/logout", logout);
+router.get("/verify", isLoggedIn, verify);
+router.get("/logout", isLoggedIn, logout);
+router.post("/reset-password", isLoggedIn, resetPassword);
+
+// Admin level
+router.get('/get-all-users', isLoggedIn, isAdmin, getAllUsers);
+router.post('/:id/update-role/:role', isLoggedIn, isAdmin, updateRole);
+router.post('/:id/delete-user', isLoggedIn, isAdmin, deleteUserById)
 export default router;
