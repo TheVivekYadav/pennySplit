@@ -1,8 +1,6 @@
 import express from "express";
 import {
-  addUsersToGroup,
-  createExpense,
-  createGroup,
+  createExpense, getAllExpense, deleteExpense
 } from "../controllers/expense.controller.js";
 const router = express.Router();
 
@@ -38,7 +36,8 @@ const router = express.Router();
  *                 newGroup:
  *                   $ref: '#/components/schemas/Group'
  */
-router.post("/create", createGroup);
-router.post("/add", addUsersToGroup);
-router.post("/expense", createExpense);
+router.post("/create", createExpense);
+router.get("/:groupId",getAllExpense)
+router.put("/:id",updateExpense)
+router.delete("/:id",deleteExpense)
 export default router;
