@@ -1,25 +1,33 @@
 import {Expense,ExpenseSplit} from "../models/expense.model.js";
 import isEqual from 'lodash.isequal';
 import { GroupMembers, Groups } from "../models/groups.model.js";
+import { createExpenseSchema,updateExpenseSchema } from "../validations/expense.validation.js";
 
 const createExpense = async (req, res) => {
   try {
-      const {expenseDetails,splitAmong} = req.body;
+      const input = req.body;
+      const parsed = createExpenseSchema.safeParse(input);
+      if (!parsed.success) {
+        return res.status(400).json({ errors: parsed.error.errors });
+      }
+      const expenseDetails=parsed.data
+      const {splitAmong}=expenseDetails
       const group = await Groups.findById(expenseDetails.groupId);
       if (!group) {
         return res.status(404).json({ message: "Group not found" });
       }
       const splitType = group.equal_type ? 'equal' : 'percentage';
-
-      // const parsed = createExpenseSchema.safeParse(expenseDetails);
-      // if (!parsed.success) {
-      //   return res.status(400).json({ errors: parsed.error.errors });
+      // if (splitType === 'percentage') {
+      //   const total = splitAmong.reduce((sum, e) => sum + e.percentage, 0);
+      //   if (total !== 100) {
+      //     return res.status(400).json({ message: "Split percentages must add up to 100." });
+      //   }
       // }
-      const userCreating = req.user._id; //will get userId from middleware
+      const userCreating = req.user._id; 
       if (!userCreating) {
         return res.status(401).json({ message: "Please login first." });
       }
-      const newExpense = await Expense.create({...expenseDetails,createdBy:userCreating,splitType,splitAmong});
+      const newExpense = await Expense.create({...expenseDetails,createdBy:userCreating,splitType});
 
       const splits=[]
       if(splitType == 'equal'){
@@ -56,7 +64,7 @@ const getAllExpense = async (req,res) => {
   try {
       const groupId = req.query.groupId; 
       const expenses = await Expense.find({groupId}).populate("paidBy");
-      res.status(201).json({ message: "success", expenses});
+      res.status(200).json({ message: "success", expenses});
     } catch (err) {
       res.status(500).json({ message: "backend error", error: err.message });
     }
@@ -77,7 +85,7 @@ const deleteExpense = async (req,res) => {
       }
       await Expense.deleteOne({_id:expenseId});
       await ExpenseSplit.deleteMany({expenseId})
-      res.status(201).json({ message: "success"});
+      res.status(200).json({ message: "success"});
     } catch (err) {
       res.status(500).json({ message: "backend error", error: err.message });
     }
@@ -87,20 +95,28 @@ const updateExpense=async(req,res)=>{
   try {
       const expenseId = req.query.id; 
       const userUpdating = req.user._id;
-      const {expenseDetails,splitAmong}=req.body;
-
+      const input = req.body;
+      const parsed = updateExpenseSchema.safeParse(input);
+      if (!parsed.success) {
+        return res.status(400).json({ errors: parsed.error.errors });
+      }
+      const expenseDetails=parsed.data
+      const {splitAmong}=expenseDetails
+      if (!splitAmong || splitAmong.length === 0) {
+        return res.status(400).json({ message: "splitAmong cannot be empty." });
+      }
       const oldExpense=await Expense.findById(expenseId);
-      if(oldExpense.createdBy!=userUpdating){
+      if(oldExpense.createdBy.toString() !== userUpdating.toString()){
         return res.status(403).json({ message: "Only the person who created can update." });
       }
-      const BigChanges = !isEqual(splitAmong, oldExpense.splitAmong) || expenseDetails.amount !== oldExpense.amount;
+      const BigChanges =(splitAmong && !isEqual(splitAmong, oldExpense.splitAmong)) || (expenseDetails.amount && expenseDetails.amount !== oldExpense.amount);
       let expenseRes;
       if(BigChanges){
-        expenseRes= await Expense.findByIdAndUpdate(expenseId,{...expenseDetails,splitAmong},{new: true,});
+        expenseRes= await Expense.findByIdAndUpdate(expenseId,expenseDetails,{new: true,});
         await ExpenseSplit.deleteMany({expenseId:expenseRes._id})
         const splits=[]
         if(expenseRes.splitType == 'equal'){
-          const splitAmnt=(expenseRes.amount)/splitAmong.lgength
+          const splitAmnt=(expenseRes.amount)/splitAmong.length
           for(const userId of splitAmong){
             splits.push({
               expenseId:expenseRes._id,
@@ -127,11 +143,11 @@ const updateExpense=async(req,res)=>{
       else{
         expenseRes= await Expense.findByIdAndUpdate(expenseId,expenseDetails,{new: true,})
       }
-      res.status(201).json({ message: "success", expense:expenseRes});
+      res.status(200).json({ message: "success", expense:expenseRes});
     } catch (err) {
       res.status(500).json({ message: "backend error", error: err.message });
     }
 }
 
 
-export {createExpense,getAllExpense,deleteExpense};
+export {createExpense,getAllExpense,deleteExpense,updateExpense};

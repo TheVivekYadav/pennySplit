@@ -1,7 +1,6 @@
 import express from "express";
-import {
-  createExpense, getAllExpense, deleteExpense
-} from "../controllers/expense.controller.js";
+import {createExpense, getAllExpense, deleteExpense,updateExpense} from "../controllers/expense.controller.js";
+import { isLoggedIn } from "../middleware/auth.js";
 const router = express.Router();
 
 /**
@@ -36,8 +35,8 @@ const router = express.Router();
  *                 newGroup:
  *                   $ref: '#/components/schemas/Group'
  */
-router.post("/create", createExpense);
-router.get("/:groupId",getAllExpense)
-router.put("/:id",updateExpense)
-router.delete("/:id",deleteExpense)
+router.post("/create", isLoggedIn,createExpense);
+router.get("/:groupId",isLoggedIn,getAllExpense)
+router.put("/:id",isLoggedIn,updateExpense)
+router.delete("/:id",isLoggedIn,deleteExpense)
 export default router;
