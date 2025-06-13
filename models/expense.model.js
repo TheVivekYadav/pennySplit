@@ -31,4 +31,4 @@ const expenseSplitSchema = new mongoose.Schema({
 
 const Expense = mongoose.model("Expense", expenseSchema);
 const ExpenseSplit = mongoose.model("ExpenseSplit", expenseSplitSchema);
-export default { Expense, ExpenseSplit };
+export { Expense, ExpenseSplit };
