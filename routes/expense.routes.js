@@ -36,7 +36,7 @@ const router = express.Router();
  *                   $ref: '#/components/schemas/Group'
  */
 router.post("/create", isLoggedIn,createExpense);
-router.get("/:groupId",isLoggedIn,getAllExpense)
+router.get("/:groupId",isLoggedIn,x1)
 router.put("/:id",isLoggedIn,updateExpense)
 router.delete("/:id",isLoggedIn,deleteExpense)
 export default router;

@@ -12,23 +12,30 @@ const createExpense = async (req, res) => {
       }
       const expenseDetails=parsed.data
       const {splitAmong}=expenseDetails
+      const userCreating = req.user._id; 
+      if (!userCreating) {
+          return res.status(401).json({ message: "Please login first." });
+      }
+
       const group = await Groups.findById(expenseDetails.groupId);
       if (!group) {
         return res.status(404).json({ message: "Group not found" });
       }
+      
+      const isMember = await GroupMembers.findOne({ userId: userCreating, groupId: expenseDetails.groupId });
+      if (!isMember) {
+        return res.status(403).json({ message: "You are not part of this group." });
+      }
+      
       const splitType = group.equal_type ? 'equal' : 'percentage';
       // if (splitType === 'percentage') {
       //   const total = splitAmong.reduce((sum, e) => sum + e.percentage, 0);
       //   if (total !== 100) {
-      //     return res.status(400).json({ message: "Split percentages must add up to 100." });
-      //   }
-      // }
-      const userCreating = req.user._id; 
-      if (!userCreating) {
-        return res.status(401).json({ message: "Please login first." });
-      }
+        //     return res.status(400).json({ message: "Split percentages must add up to 100." });
+        //   }
+        // }
       const newExpense = await Expense.create({...expenseDetails,createdBy:userCreating,splitType});
-
+      
       const splits=[]
       if(splitType == 'equal'){
         const splitAmnt=(expenseDetails.amount)/splitAmong.length
@@ -62,7 +69,15 @@ const createExpense = async (req, res) => {
 
 const getAllExpense = async (req,res) => {
   try {
-      const groupId = req.query.groupId; 
+      const groupId = req.params.groupId; 
+      const userId  = req.user._id; 
+      if (!userId) {
+          return res.status(401).json({ message: "Please login first." });
+      }
+      const isMember = await GroupMembers.findOne({ userId, groupId });
+      if (!isMember) {
+        return res.status(403).json({ message: "You are not part of this group." });
+      }
       const expenses = await Expense.find({groupId}).populate("paidBy");
       res.status(200).json({ message: "success", expenses});
     } catch (err) {
@@ -72,7 +87,7 @@ const getAllExpense = async (req,res) => {
 
 const deleteExpense = async (req,res) => {
   try {
-      const expenseId = req.query.id; 
+      const expenseId = req.params.id; 
       const userId = req.user._id;
       const expense=await Expense.findById(expenseId)
       if (!expense) return res.status(404).json({ message: "Expense not found" });
@@ -93,7 +108,7 @@ const deleteExpense = async (req,res) => {
 
 const updateExpense=async(req,res)=>{
   try {
-      const expenseId = req.query.id; 
+      const expenseId = req.params.id; 
       const userUpdating = req.user._id;
       const input = req.body;
       const parsed = updateExpenseSchema.safeParse(input);
