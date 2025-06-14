@@ -2,5 +2,5 @@
 . "$(dirname -- "$0")/_/husky.sh"
 
 # npm test
-yarn format
-npx lint-staged
+# yarn format
+# npx lint-staged

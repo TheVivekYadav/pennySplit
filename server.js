@@ -18,7 +18,7 @@ server.use(cookieParser());
 // user routes
 server.use("/api/auth/users", userRoutes);
 server.use("/api/groups", groupRoutes);
-server.use('/api/expense', expenseRoutes);
+server.use("/api/expense", expenseRoutes);
 
 // Swagger route
 server.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));

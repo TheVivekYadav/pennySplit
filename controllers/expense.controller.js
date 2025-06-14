@@ -42,7 +42,7 @@ const createExpense = async (req, res) => {
     //     return res.status(400).json({ message: "Split percentages must add up to 100." });
     //   }
     // }
-    console.log({ ...expenseDetails, createdBy: userCreating, splitType });
+    // console.log({ ...expenseDetails, createdBy: userCreating, splitType });
 
     const newExpense = await Expense.create({
       ...expenseDetails,
