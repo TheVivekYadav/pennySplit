@@ -126,7 +126,7 @@ const refreshAccessToken = async (req, res) => {
   }
 }
 
-async function verify(req, res) {
+const verify = async (req, res) {
   const accessToken = req.cookies.token;
   if (!accessToken) {
     return res.status(401).json({ message: "Access token missing" });
