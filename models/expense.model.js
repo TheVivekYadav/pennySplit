@@ -13,6 +13,12 @@ const expenseSchema = new mongoose.Schema(
       enum: ["equal", "percentage"],
       default: "equal",
     },
+    splitAmong: [
+      {
+        userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+        percentage: Number,
+      },
+    ],
   },
   { timestamps: true },
 );
@@ -21,12 +27,10 @@ const expenseSplitSchema = new mongoose.Schema({
   expenseId: { type: mongoose.Schema.Types.ObjectId, ref: "Expense" },
   userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
   amount: Number,
-  percentage: Number,
-  finalAmount: Number,
   isPaid: Boolean, //when person has to pay split
   isOwed: Boolean, //when person owns split
 });
 
 const Expense = mongoose.model("Expense", expenseSchema);
 const ExpenseSplit = mongoose.model("ExpenseSplit", expenseSplitSchema);
-export default { Expense, ExpenseSplit };
+export { Expense, ExpenseSplit };

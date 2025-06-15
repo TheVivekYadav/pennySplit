@@ -1,5 +1,8 @@
 import { GroupMembers, Groups } from "../models/groups.model.js";
-import { createGroupSchema,updateGroupSchema } from "../validations/group.validation.js";
+import {
+  createGroupSchema,
+  updateGroupSchema,
+} from "../validations/group.validation.js";
 
 const listAllGroups = async (req, res) => {
   try {
@@ -48,6 +51,31 @@ const getGroupbyId = async (req, res) => {
   }
 };
 
+const getGroupMembers = async (req, res) => {
+  try {
+    const groupId = req.params.id;
+    const userId = req.user._id;
+    if (!userId) {
+      return res.status(401).json({ message: "Please login first." });
+    }
+    const isMember = await GroupMembers.findOne({ userId, groupId });
+    if (!isMember) {
+      return res
+        .status(403)
+        .json({ message: "You are not part of this group." });
+    }
+    const resMembers = await GroupMembers.find({ groupId }).populate("userId");
+    if (!resMembers || resMembers.length === 0) {
+      return res
+        .status(404)
+        .json({ message: "No members found for this group" });
+    }
+    res.status(200).json({ message: "success", members: resMembers });
+  } catch (err) {
+    res.status(500).json({ message: "backend error", error: err.message });
+  }
+};
+
 const updateGroup = async (req, res) => {
   try {
     const groupId = req.params.id;
@@ -57,14 +85,14 @@ const updateGroup = async (req, res) => {
     if (!parsed.success) {
       return res.status(400).json({ errors: parsed.error.errors });
     }
-    const checkAdmin = await GroupMembers.findOne({ userId, groupId });
-    if (!checkAdmin) {
+    const isGroupMember = await GroupMembers.findOne({ userId, groupId });
+    if (!isGroupMember) {
       return res
         .status(403)
         .json({ message: "You are not part of this group." });
     }
 
-    if (!checkAdmin.isAdmin) {
+    if (!isGroupMember.isAdmin) {
       return res
         .status(403)
         .json({ message: "Only admins can update the group." });
@@ -156,6 +184,7 @@ export {
   listAllGroups,
   removeMember,
   updateGroup,
+  getGroupMembers,
 };
 
 // write test cases for group controller
