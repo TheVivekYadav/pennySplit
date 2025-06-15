@@ -20,10 +20,13 @@ const userSchema = new mongoose.Schema(
       maxlength: [128, "Password must be at most 128 characters"],
     },
     avatarUrl: String,
+    emailVerificationToken: { type: String },
     loginCount: {
       type: Number,
       default: 0,
     },
+    isAdmin: { type: Boolean, default: false },
+    isActive: { type: Boolean, default: false }
   },
   { timestamps: true },
 );
@@ -76,6 +79,9 @@ userSchema.statics.findByAccessToken = async function (token) {
     }
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    if (!decoded || !decoded._id) {
+      throw new Error("Invalid token payload");
+    }
     return await this.findOne({ _id: decoded._id });
   } catch (err) {
     console.error("Error in findByAccessToken:", err.message);
@@ -90,12 +96,22 @@ userSchema.statics.findByRefreshToken = async function (token) {
     }
 
     const decoded = jwt.verify(token, process.env.JWT_REFRESH_SECRET);
+    if (!decoded || !decoded._id) {
+      throw new Error("Invalid token payload");
+    }
     return await this.findOne({ _id: decoded._id });
   } catch (err) {
     console.error("Error in findByRefreshToken:", err.message);
     throw err;
   }
 };
+
+// update password or reset password
+userSchema.methods.updatePassword = async function (password) {
+  this.password = password;
+  await this.save();
+}
+
 
 const User = mongoose.model("User", userSchema);
 

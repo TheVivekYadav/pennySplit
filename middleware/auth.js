@@ -23,3 +23,18 @@ export const isLoggedIn = async (req, res, next) => {
       .json({ message: "Invalid or expired token", error: err.message });
   }
 };
+
+export const isAdmin = async (req, res, next) => {
+  const token = req.cookies.token;
+  if (!token) {
+    return res.status(401).json({ message: "Access token missing" });
+  }
+  try {
+    if (req.user && req.user.isAdmin) {
+      return next();
+    }
+    return res.status(403).json({ error: 'Admins only' });
+  } catch (error) {
+    return res.status(500).json({ "message": "is admin middleware failed" })
+  }
+}
