@@ -1,4 +1,4 @@
-import User from "../models/expense.model.js";
+import User from "../models/user.model.js";
 
 export const updateUserRole = async (userId, role) => {
   if (!["admin", "user"].includes(role)) {
