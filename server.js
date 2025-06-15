@@ -5,7 +5,6 @@ import dotenv from "dotenv";
 import express from "express";
 import groupRoutes from "./routes/group.routes.js";
 import expenseRoutes from "./routes/expense.routes.js";
-import groupRoutes from "./routes/group.routes.js";
 import userRoutes from "./routes/user.routes.js";
 
 
