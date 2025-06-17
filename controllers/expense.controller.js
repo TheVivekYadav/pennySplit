@@ -162,9 +162,10 @@ const updateExpense = async (req, res) => {
 
     const BigChanges =
       !isEqual(newNormalized, oldNormalized) ||
-      (expenseDetails.amount && expenseDetails.amount !== oldExpense.amount);
+      (typeof expenseDetails.amount === 'number' && expenseDetails.amount !== oldExpense.amount) ||
+      (expenseDetails.paidBy && expenseDetails.paidBy.toString() !== oldExpense.paidBy.toString());
     let expenseRes;
-    console.log(BigChanges);
+    // console.log(BigChanges);
     if (BigChanges) {
       expenseRes = await Expense.findByIdAndUpdate(expenseId, expenseDetails, {
         new: true,

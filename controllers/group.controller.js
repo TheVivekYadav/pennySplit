@@ -67,7 +67,7 @@ const getGroupMembers = async (req, res) => {
         .status(403)
         .json({ message: "You are not part of this group." });
     }
-    const resMembers = await GroupMembers.find({ groupId }).populate("userId");
+    const resMembers = await GroupMembers.find({ groupId }).populate({path:"userId",select: "name email avatarUrl isAdmin",});
     if (!resMembers || resMembers.length === 0) {
       return res
         .status(404)
