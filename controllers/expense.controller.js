@@ -97,7 +97,7 @@ const getAllExpense = async (req, res) => {
     }
     const expenses = await Expense.find({ groupId }).populate({
       path: "paidBy",
-      select: "name email avatar_url",
+      select: "name email avatarUrl",
     });
     res.status(200).json({ message: "success", expenses });
   } catch (err) {

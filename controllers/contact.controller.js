@@ -1,5 +1,5 @@
 import { Contacts } from "../models/contact.model.js";
-import { User } from "../models/user.model.js"
+import User  from "../models/user.model.js"
 
 const addContact = async (req, res) => {
     try {
@@ -30,7 +30,7 @@ const getContactList = async (req, res) => {
         }
         const contactsLs = await Contacts.findOne({ userId }).populate({
             path: "contacts",
-            select: "name email avatar_url",
+            select: "name email avatarUrl",
         });
         if (!contactsLs) {
             return res.status(200).json({ message: "No Contacts Found.", contacts: [] });
@@ -38,7 +38,7 @@ const getContactList = async (req, res) => {
         const contactList = contactsLs.contacts.map(c => ({
             name: c.name,
             email: c.email,
-            avatar_url: c.avatar_url
+            avatarUrl: c.avatarUrl
         }));
         res.status(200).json({ message: "success", contacts: contactList });
     } catch (err) {
