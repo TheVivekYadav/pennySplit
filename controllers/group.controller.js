@@ -7,6 +7,9 @@ import {
 const listAllGroups = async (req, res) => {
   try {
     const userId = req.user._id; //will get userId from middleware
+    if (!userId) {
+      return res.status(401).json({ message: "Please login first." });
+    }
     const allGroups = await GroupMembers.find({ userId }).populate("groupId");
     const result = allGroups.map((a) => a.groupId);
     res.status(200).json({ message: "success", groups: result });
