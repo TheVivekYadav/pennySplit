@@ -25,6 +25,7 @@ const userSchema = new mongoose.Schema(
       type: Number,
       default: 0,
     },
+    authProvider: { type: String, enum: ["email", "google"], default: "email" },
     isAdmin: { type: Boolean, default: false },
     isActive: { type: Boolean, default: false }
   },
