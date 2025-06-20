@@ -1,4 +1,5 @@
 import express from "express";
+import { googleAuthCallback, googleAuthRedirect } from "../controllers/googleAuth.controller.js";
 import {
   deleteUserById,
   emailVerification,
@@ -12,13 +13,12 @@ import {
   verify
 } from "../controllers/user.controller.js";
 import { isAdmin, isLoggedIn } from '../middleware/auth.js';
-import { googleAuthCallback, googleAuthRedirect } from "../controllers/googleAuth.controller.js";
 
 const router = express.Router();
 
 router.post("/register", register)
 router.post("/login", login);
-router.post("/refresh-access", isLoggedIn, refreshAccessToken);
+router.post("/refresh-access", refreshAccessToken);
 
 router.get("/verify", isLoggedIn, verify);
 router.get("/logout", isLoggedIn, logout);
