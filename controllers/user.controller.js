@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 import User from "../models/user.model.js";
-import { softDeleteUserById, updateUserRole } from '../service/auth.service.js';
+import { softDeleteUserById, updateUserRole } from '../services/auth.service.js';
 import { sendMail } from '../utils/mail/mailService.js';
 import { emailVerificationMailGenContent } from '../utils/mail/mailTemplates.js';
 import { generateLink } from "../utils/url.js";
@@ -70,19 +70,37 @@ const login = async (req, res) => {
     const tokens = user.generateAuthTokens();
     await user.incrementLoginCount();
 
-    res
-      .cookie("token", tokens.accessToken, {
-        httpOnly: true,
-        sameSite: "strict",
-        secure: process.env.NODE_ENV === "production",
-      })
-      .cookie("refreshToken", tokens.refreshToken, {
-        httpOnly: true,
-        sameSite: "strict",
-        secure: process.env.NODE_ENV === "production",
-      })
-      .status(200)
-      .json({ message: "Login Success", status: 1 });
+    const clientType = req.headers["x-client-type"];
+
+    if (clientType === "mobile") {
+      return res.status(200).json({
+        message: "Login Success",
+        status: 1,
+        accessToken: tokens.accessToken,
+        refreshToken: tokens.refreshToken,
+        user: {
+          id: user._id,
+          name: user.name,
+          email: user.email,
+          avatarUrl: user.avatarUrl,
+        },
+      });
+    } else {
+      // web
+      return res
+        .cookie("token", tokens.accessToken, {
+          httpOnly: true,
+          sameSite: "strict",
+          secure: process.env.NODE_ENV === "production",
+        })
+        .cookie("refreshToken", tokens.refreshToken, {
+          httpOnly: true,
+          sameSite: "strict",
+          secure: process.env.NODE_ENV === "production",
+        })
+        .status(200)
+        .json({ message: "Login Success", status: 1 });
+    }
   } catch (error) {
     console.error(error);
     return res

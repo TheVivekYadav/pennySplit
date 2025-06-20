@@ -3,10 +3,11 @@ import {
   addMember,
   createGroup,
   getGroupbyId,
+  getGroupDebts,
+  getGroupMembers,
   listAllGroups,
   removeMember,
   updateGroup,
-  getGroupMembers,
 } from "../controllers/group.controller.js";
 import { isLoggedIn } from "../middleware/auth.js";
 
@@ -21,4 +22,5 @@ router.get("/:id/members", isLoggedIn, getGroupMembers);
 router.post("/:id/add-member", isLoggedIn, addMember);
 router.delete("/:id/remove-member/:userId", isLoggedIn, removeMember);
 
+router.get('/:groupId/debts', isLoggedIn, getGroupDebts);
 export default router;
