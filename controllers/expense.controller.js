@@ -67,6 +67,63 @@ const updateExpense = async (req, res) => {
     if (!parsed.success) {
       return res.status(400).json({ errors: parsed.error.errors });
     }
+    const expenseDetails = parsed.data;
+    const { splitAmong } = expenseDetails;
+    if (!splitAmong || splitAmong.length === 0) {
+      return res.status(400).json({ message: "splitAmong cannot be empty." });
+    }
+    const oldExpense = await Expense.findById(expenseId);
+    if (oldExpense.createdBy.toString() !== userUpdating.toString()) {
+      return res
+        .status(403)
+        .json({ message: "Only the person who created can update." });
+    }
+    const newNormalized = normalizeSplit(splitAmong);
+    const oldNormalized = normalizeSplit(oldExpense.splitAmong);
+
+    const BigChanges =
+      !isEqual(newNormalized, oldNormalized) ||
+      (typeof expenseDetails.amount === 'number' && expenseDetails.amount !== oldExpense.amount) ||
+      (expenseDetails.paidBy && expenseDetails.paidBy.toString() !== oldExpense.paidBy.toString());
+    let expenseRes;
+    // console.log(BigChanges);
+    if (BigChanges) {
+      expenseRes = await Expense.findByIdAndUpdate(expenseId, expenseDetails, {
+        new: true,
+      });
+      await ExpenseSplit.deleteMany({ expenseId: expenseRes._id });
+      const splits = [];
+      if (expenseRes.splitType == "equal") {
+        const splitAmnt = expenseRes.amount / splitAmong.length;
+        for (const entry of splitAmong) {
+          const userId = typeof entry === "string" ? entry : entry.userId;
+          splits.push({
+            expenseId: expenseRes._id,
+            userId,
+            amount: splitAmnt,
+            isPaid: expenseRes.paidBy === userId,
+            isOwed: expenseRes.paidBy !== userId,
+          });
+        }
+      } else if (expenseRes.splitType === "percentage") {
+        for (const entries of splitAmong) {
+          const splitAmnt = (expenseRes.amount * entries.percentage) / 100;
+          splits.push({
+            expenseId: expenseRes._id,
+            userId: entries.userId,
+            amount: splitAmnt,
+            isPaid: expenseRes.paidBy === entries.userId,
+            isOwed: expenseRes.paidBy !== entries.userId,
+          });
+        }
+      }
+      await ExpenseSplit.insertMany(splits);
+    } else {
+      expenseRes = await Expense.findByIdAndUpdate(expenseId, expenseDetails, {
+        new: true,
+      });
+    }
+    res.status(200).json({ message: "success", expense: expenseRes });
     const updated = await updateGroupExpense(
       expenseId,
       userUpdating,

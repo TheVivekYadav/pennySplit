@@ -52,6 +52,22 @@ const getGroupMembers = async (req, res) => {
   try {
     const groupId = req.params.id;
     const userId = req.user._id;
+    if (!userId) {
+      return res.status(401).json({ message: "Please login first." });
+    }
+    const isMember = await GroupMembers.findOne({ userId, groupId });
+    if (!isMember) {
+      return res
+        .status(403)
+        .json({ message: "You are not part of this group." });
+    }
+    const resMembers = await GroupMembers.find({ groupId }).populate({path:"userId",select: "name email avatarUrl isAdmin",});
+    if (!resMembers || resMembers.length === 0) {
+      return res
+        .status(404)
+        .json({ message: "No members found for this group" });
+    }
+    res.status(200).json({ message: "success", members: resMembers });
 
     const members = await fetchGroupMembers({ groupId, userId });
 
