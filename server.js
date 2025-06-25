@@ -1,13 +1,14 @@
 import cookieParser from "cookie-parser";
 
+import cors from 'cors';
 import dotenv from "dotenv";
 import express from "express";
-import groupRoutes from "./routes/group.routes.js";
+import balanceRoutes from "./routes/balance.routes.js";
+import contactRoutes from "./routes/contact.routes.js";
 import expenseRoutes from "./routes/expense.routes.js";
+import groupRoutes from "./routes/group.routes.js";
+import settlementRoutes from "./routes/settlements.routes.js";
 import userRoutes from "./routes/user.routes.js";
-import contactRoutes from "./routes/contact.routes.js"
-
-import { swaggerSpec, swaggerUi } from "./swagger.js";
 
 dotenv.config();
 
@@ -15,14 +16,13 @@ const server = express();
 
 server.use(express.json());
 server.use(cookieParser());
-
+server.use(cors({ origin: "http://localhost:3000", credentials: true }));
 // user routes
 server.use("/api/auth/users", userRoutes);
 server.use("/api/groups", groupRoutes);
 server.use("/api/expense", expenseRoutes);
 server.use("/api/contacts", contactRoutes);
-
-// Swagger route
-server.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+server.use("/api/settlement", settlementRoutes);
+server.use("/api/balance", balanceRoutes);
 
 export default server;

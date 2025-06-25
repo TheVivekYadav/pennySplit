@@ -26,6 +26,7 @@ const expenseSchema = new mongoose.Schema(
 const expenseSplitSchema = new mongoose.Schema({
   expenseId: { type: mongoose.Schema.Types.ObjectId, ref: "Expense" },
   userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+  groupId: { type: mongoose.Schema.Types.ObjectId, ref: "Groups" },
   amount: Number,
   isPaid: Boolean, //when person has to pay split
   isOwed: Boolean, //when person owns split

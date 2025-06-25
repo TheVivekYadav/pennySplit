@@ -1,8 +1,8 @@
 import express from "express";
 import {
   createExpense,
-  getAllExpense,
   deleteExpense,
+  getAllExpense,
   updateExpense,
 } from "../controllers/expense.controller.js";
 import { isLoggedIn } from "../middleware/auth.js";
