@@ -99,7 +99,14 @@ const login = async (req, res) => {
           secure: process.env.NODE_ENV === "production",
         })
         .status(200)
-        .json({ message: "Login Success", status: 1 });
+        .json({
+          message: "Login Success", status: 1, accessToken: tokens.accessToken, refreshToken: tokens.refreshToken, user: {
+            id: user._id,
+            name: user.name,
+            email: user.email,
+            avatarUrl: user.avatarUrl,
+          },
+        });
     }
   } catch (error) {
     console.error(error);

@@ -21,7 +21,7 @@ router.post("/login", login);
 router.post("/refresh-access", refreshAccessToken);
 
 router.get("/verify", isLoggedIn, verify);
-router.get("/logout", isLoggedIn, logout);
+router.get("/logout", logout);
 router.post("/reset-password", isLoggedIn, resetPassword);
 
 // Admin level

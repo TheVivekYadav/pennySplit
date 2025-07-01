@@ -16,7 +16,7 @@ const server = express();
 
 server.use(express.json());
 server.use(cookieParser());
-server.use(cors({ origin: "http://localhost:3000", credentials: true }));
+server.use(cors({ origin: "http://localhost:5173", credentials: true }));
 // user routes
 server.use("/api/auth/users", userRoutes);
 server.use("/api/groups", groupRoutes);
