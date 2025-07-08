@@ -774,7 +774,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n   \"name\": \"Groups testing\"\r\n}",
+							"raw": "{\r\n   \"name\": \"Groups 3\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -962,10 +962,10 @@
 						"disableBodyPruning": true
 					},
 					"request": {
-						"method": "GET",
+						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/groups/684c3a8dd777d8c0b19839b4/remove-member/6847bfe47e0017678c1f8bb6",
+							"raw": "http://localhost:8080/api/groups/{{groupId}}/remove-member/{{userId1}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -974,9 +974,9 @@
 							"path": [
 								"api",
 								"groups",
-								"684c3a8dd777d8c0b19839b4",
+								"{{groupId}}",
 								"remove-member",
-								"6847bfe47e0017678c1f8bb6"
+								"{{userId1}}"
 							]
 						}
 					},
