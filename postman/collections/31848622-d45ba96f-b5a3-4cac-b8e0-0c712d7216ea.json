@@ -1156,7 +1156,7 @@
 							"raw": "{\r\n    \"groupId\": \"684c3a8dd777d8c0b19839b4\",\r\n    \"paidBy\": \"6847bfe47e0017678c1f8bb6\",\r\n    \"amount\": 250,\r\n    \"description\": \"Lunch at cafe\",\r\n    \"date\": \"2025-06-13\",\r\n    \"splitAmong\": [\r\n        {\r\n            \"userId\": \"6846745cfd4415d4b088f2e6\",\r\n            \"percentage\": 40\r\n        },\r\n        {\r\n            \"userId\": \"68469cce61891cc8de60d939\",\r\n            \"percentage\": 60\r\n        }\r\n    ]\r\n}"
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/expense/6852e45a574f106be5b28402",
+							"raw": "http://localhost:8080/api/expense/{{groupId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -1165,7 +1165,7 @@
 							"path": [
 								"api",
 								"expense",
-								"6852e45a574f106be5b28402"
+								"{{groupId}}"
 							]
 						}
 					},
