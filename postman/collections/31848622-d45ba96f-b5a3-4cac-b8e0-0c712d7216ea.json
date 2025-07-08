@@ -20,6 +20,8 @@
 									"    pm.expect(pm.response.code).to.equal(200);",
 									"});",
 									"",
+									"const response = pm.response.json();",
+									"pm.environment.set(\"userId\", response.user.id);",
 									"",
 									"pm.test(\"Response has required fields\", function () {",
 									"    const responseData = pm.response.json();",
@@ -79,7 +81,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n   \"user\": {\r\n  \"name\": \"{{name}}\",\r\n  \"email\": \"{{email}}\",\r\n  \"password\": \"8318940526@^Aman\",\r\n  \"avatarUrl\":\"https://thevivekyadav.me/images/img1\"\r\n    }\r\n}",
+							"raw": "{\r\n   \"user\": {\r\n  \"name\": \"{{name}}\",\r\n  \"email\": \"{{email}}\",\r\n  \"password\": \"{{password}}\",\r\n  \"avatarUrl\":\"{{avatarurl}}\"\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
