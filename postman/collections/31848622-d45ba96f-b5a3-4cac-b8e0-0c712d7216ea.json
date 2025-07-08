@@ -873,12 +873,11 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/groups/{{groupId}}/members",
+							"raw": "http://{{localhost}}/api/groups/{{groupId}}/members",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"{{localhost}}"
 							],
-							"port": "8080",
 							"path": [
 								"api",
 								"groups",
