@@ -1053,7 +1053,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"groupId\": \"685519b15a6800e1cdbdf1d9\",\r\n    \"paidBy\": \"6854325867deced98f420f69\",\r\n    \"amount\": 250,\r\n    \"description\": \"Lunch at ChaiCode\",\r\n    \"date\": \"2025-06-13\",\r\n    \"splitAmong\": [\r\n        {\r\n            \"userId\": \"6854322367deced98f420f66\",\r\n            \"percentage\": 100\r\n        }\r\n    ]\r\n}",
+							"raw": "{\r\n    \"groupId\": \"{{groupId}}\",\r\n    \"paidBy\": \"{{userId1}}\",\r\n    \"amount\": 250,\r\n    \"description\": \"Lunch at ChaiCode\",\r\n    \"date\": \"2025-06-13\",\r\n    \"splitAmong\": [\r\n        {\r\n            \"userId\": \"{{userId2}}\",\r\n            \"percentage\": 100\r\n        }\r\n    ]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
