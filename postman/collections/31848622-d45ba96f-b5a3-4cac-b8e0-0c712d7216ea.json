@@ -754,40 +754,12 @@
 						{
 							"listen": "test",
 							"script": {
+								"id": "326aacd3-4e5f-437c-80c4-98bec459f2fc",
 								"exec": [
-									"let response = pm.response.json();\r",
-									"pm.environment.set('groupId', response.group._id);",
-									"pm.test(\"Response status code is 401\", function () {",
-									"    pm.expect(pm.response.code).to.equal(401);",
-									"});",
-									"",
-									"",
-									"pm.test(\"Response contains a message field\", function () {",
-									"    const responseData = pm.response.json();",
-									"    ",
-									"    pm.expect(responseData).to.be.an('object');",
-									"    pm.expect(responseData).to.have.property('message');",
-									"});",
-									"",
-									"",
-									"pm.test(\"Message is a non-empty string\", function () {",
-									"    const responseData = pm.response.json();",
-									"    ",
-									"    pm.expect(responseData).to.be.an('object');",
-									"    pm.expect(responseData.message).to.exist.and.to.be.a('string').and.to.have.lengthOf.at.least(1, \"Message should not be empty\");",
-									"});",
-									"",
-									"",
-									"pm.test(\"Response has correct Content-Type header\", function () {",
-									"    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');",
-									"});",
-									"",
-									"",
-									"pm.test(\"Response time is less than 200ms\", function () {",
-									"    pm.expect(pm.response.responseTime).to.be.below(200);",
-									"});"
+									""
 								],
-								"type": "text/javascript"
+								"type": "text/javascript",
+								"packages": {}
 							}
 						}
 					],
