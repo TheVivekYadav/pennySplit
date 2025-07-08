@@ -873,7 +873,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/groups/685519b15a6800e1cdbdf1d9/members",
+							"raw": "http://localhost:8080/api/groups/{{groupId}}/members",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -882,7 +882,7 @@
 							"path": [
 								"api",
 								"groups",
-								"685519b15a6800e1cdbdf1d9",
+								"{{groupId}}",
 								"members"
 							]
 						}
