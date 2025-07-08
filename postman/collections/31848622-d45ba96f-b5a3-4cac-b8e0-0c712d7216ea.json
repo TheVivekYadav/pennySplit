@@ -79,7 +79,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n   \"user\": {\r\n  \"name\": \"{{name}}\",\r\n  \"email\": \"person2@example.com\",\r\n  \"password\": \"8318940526@^Aman\",\r\n  \"avatarUrl\":\"https://thevivekyadav.me/images/img1\"\r\n    }\r\n}",
+							"raw": "{\r\n   \"user\": {\r\n  \"name\": \"{{name}}\",\r\n  \"email\": \"{{email}}\",\r\n  \"password\": \"8318940526@^Aman\",\r\n  \"avatarUrl\":\"https://thevivekyadav.me/images/img1\"\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
