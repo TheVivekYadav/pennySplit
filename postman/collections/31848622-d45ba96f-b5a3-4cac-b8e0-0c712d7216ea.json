@@ -805,7 +805,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"userId\": \"6854322367deced98f420f66\"\r\n}",
+							"raw": "{\r\n    \"userId\": [\"fjkshjk\"]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
