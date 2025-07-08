@@ -756,7 +756,9 @@
 							"script": {
 								"id": "326aacd3-4e5f-437c-80c4-98bec459f2fc",
 								"exec": [
-									""
+									"686c76b0aa69017f58797189\r",
+									"const response = pm.response.json();\r",
+									"pm.environment.set(\"groupId\", response.group.id);"
 								],
 								"type": "text/javascript",
 								"packages": {}
