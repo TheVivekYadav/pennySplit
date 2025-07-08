@@ -89,7 +89,7 @@ const updateGroup = async (req, res) => {
     }
 
     const updatedGroup = await updateGroupDetails({ userId, groupId, updatedDetails });
-    res.status(200).json({ message: "success", group: updatedGrp });
+    res.status(200).json({ message: "success", group: updatedGroup });
   } catch (err) {
     const status = err.status || 500;
     res.status(status).json({ message: "backend error", error: err.message });
@@ -99,7 +99,6 @@ const updateGroup = async (req, res) => {
 const addMember = async (req, res) => {
   try {
     const memberToAdd = req.body.userIds;
-    console.log(memberToAdd);
 
     const groupId = req.params.id;
     const adminId = req.user._id;
