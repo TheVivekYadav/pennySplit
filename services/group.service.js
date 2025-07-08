@@ -44,7 +44,8 @@ export const getGroupDetailsById = async (groupId) => {
     return group;
 };
 
-export const addGroupMember = async ({ adminId, groupId, memberToAdd }) => {
+export const addGroupMember = async ({ adminId, groupId, memberId }) => {
+
     const admin = await GroupMembers.findOne({ userId: adminId, groupId });
 
     if (!admin) {
@@ -55,23 +56,24 @@ export const addGroupMember = async ({ adminId, groupId, memberToAdd }) => {
         throw { status: 403, message: "Only admins can add members." };
     }
 
+    console.log(memberId)
     const alreadyExists = await GroupMembers.findOne({
-        userId: memberToAdd,
+        userId: memberId,
         groupId,
     });
 
     if (alreadyExists) {
-        throw { status: 400, message: "User is already a member of this group." };
+        throw { status: 400, message: `${memberId} is already a member of this group ${groupId}.` };
     }
 
-    const userExists = await User.findById(memberToAdd);
+    const userExists = await User.findById(memberId);
     if (!userExists) {
-        throw { status: 404, message: "User does not exist." };
+        throw { status: 404, message: `${memberId} does not exist.` };
     }
 
     const newMember = await GroupMembers.create({
         groupId,
-        userId: memberToAdd,
+        userId: memberId,
     });
 
     return newMember;

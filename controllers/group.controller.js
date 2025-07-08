@@ -61,7 +61,7 @@ const getGroupMembers = async (req, res) => {
         .status(403)
         .json({ message: "You are not part of this group." });
     }
-    const resMembers = await GroupMembers.find({ groupId }).populate({path:"userId",select: "name email avatarUrl isAdmin",});
+    const resMembers = await GroupMembers.find({ groupId }).populate({ path: "userId", select: "name email avatarUrl isAdmin", });
     if (!resMembers || resMembers.length === 0) {
       return res
         .status(404)
@@ -98,13 +98,20 @@ const updateGroup = async (req, res) => {
 
 const addMember = async (req, res) => {
   try {
-    const memberToAdd = req.body.userId;
+    const memberToAdd = req.body.userIds;
+    console.log(memberToAdd);
 
     const groupId = req.params.id;
     const adminId = req.user._id;
 
-    const newMember = await addGroupMember({ adminId, groupId, memberToAdd });
-    res.status(200).json({ message: "success", added: newMember });
+    const addedMembers = [];
+
+    for (const memberId of memberToAdd) {
+      const newMember = await addGroupMember({ adminId, groupId, memberId });
+      addedMembers.push(newMember);
+    }
+
+    res.status(200).json({ message: "success", added: addedMembers });
   } catch (err) {
     const status = err.status || 500;
     res.status(status).json({ message: "backend error", error: err.message });
