@@ -958,43 +958,6 @@
 					"response": []
 				},
 				{
-					"name": "update group",
-					"id": "31848622-acd1fb01-61c1-402c-ab4a-07cbeb99d256",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"auth": {
-							"type": "noauth"
-						},
-						"method": "PUT",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n   \"name\": \"Trip to Manali v2\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:8080/api/groups/684c3a8dd777d8c0b19839b4",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"api",
-								"groups",
-								"684c3a8dd777d8c0b19839b4"
-							]
-						}
-					},
-					"response": []
-				},
-				{
 					"name": "remove member",
 					"id": "31848622-dff4ed52-31cb-4831-8b40-a87400af857e",
 					"protocolProfileBehavior": {
