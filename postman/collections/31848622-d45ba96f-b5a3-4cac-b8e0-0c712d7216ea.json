@@ -544,6 +544,7 @@
 						{
 							"listen": "test",
 							"script": {
+								"id": "06e8627c-a273-4c0a-b26e-417231161f04",
 								"exec": [
 									"pm.test(\"Response status code is 401\", function () {",
 									"    pm.expect(pm.response.code).to.eql(401);",
@@ -574,7 +575,8 @@
 									"    pm.expect(pm.response.responseTime).to.be.below(200);",
 									"});"
 								],
-								"type": "text/javascript"
+								"type": "text/javascript",
+								"packages": {}
 							}
 						}
 					],
@@ -586,7 +588,7 @@
 						"method": "POST",
 						"header": [],
 						"url": {
-							"raw": "http://{{localhost}}/api/auth/users/6846745cfd4415d4b088f2e6/update-role/admin",
+							"raw": "http://{{localhost}}/api/auth/users/{{userId}}/update-role/admin",
 							"protocol": "http",
 							"host": [
 								"{{localhost}}"
@@ -595,7 +597,7 @@
 								"api",
 								"auth",
 								"users",
-								"6846745cfd4415d4b088f2e6",
+								"{{userId}}",
 								"update-role",
 								"admin"
 							]
