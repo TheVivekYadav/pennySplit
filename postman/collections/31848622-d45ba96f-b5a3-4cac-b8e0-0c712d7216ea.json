@@ -758,7 +758,7 @@
 								"exec": [
 									"\r",
 									"const response = pm.response.json();\r",
-									"pm.environment.set(\"groupId\", response.group.id);"
+									"pm.environment.set(\"groupId\", response.group._id);"
 								],
 								"type": "text/javascript",
 								"packages": {}
