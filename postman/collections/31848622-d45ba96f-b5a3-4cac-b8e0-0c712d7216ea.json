@@ -9,6 +9,53 @@
 			"name": "Auth",
 			"item": [
 				{
+					"name": "register",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "fe3118c1-8bfb-4f6e-b0b0-d024f9491815",
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"id": "31848622-8dda070a-b0fe-4be0-83a4-4618784c6f9d",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \"user\": {\r\n  \"name\": \"{{name}}\",\r\n  \"email\": \"{{email}}\",\r\n  \"password\": \"{{password}}\",\r\n  \"avatarUrl\":\"{{avatarurl}}\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{localhost}}/api/auth/users/register",
+							"protocol": "http",
+							"host": [
+								"{{localhost}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"users",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "login",
 					"event": [
 						{
@@ -102,53 +149,6 @@
 							]
 						},
 						"description": "## Login User\n\nThis endpoint is used to authenticate a user by logging them in to the application. It requires the user's credentials to be sent in the request body.\n\n### Request\n\n- **Method**: POST\n    \n- **Endpoint**: `http://{{localhost}}/api/auth/users/login`\n    \n\n#### Request Body\n\nThe request body must be in JSON format and should contain the following structure:\n\n``` json\n{\n  \"user\": {\n    \"name\": \"string\",        // The name of the user\n    \"email\": \"string\",       // The email address of the user\n    \"password\": \"string\",    // The password for the user account\n    \"avatarUrl\": \"string\"    // (Optional) The URL of the user's avatar\n  }\n}\n\n ```\n\n### Response\n\nThe response will return a JSON object. The structure of the response may vary based on the authentication result. In the case of a successful login, a token or user details may be returned. However, if the login fails or the endpoint is not found, the response will include:\n\n- **Status Code**: 404\n    \n- **Content-Type**: application/json\n    \n- {\"message\": \"\" // A message indicating the error or status}\n    \n\n### Notes\n\n- Ensure that the provided credentials are correct to avoid a 404 error.\n    \n- The `avatarUrl` field is optional and can be omitted if not applicable."
-					},
-					"response": []
-				},
-				{
-					"name": "register",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "fe3118c1-8bfb-4f6e-b0b0-d024f9491815",
-								"exec": [
-									""
-								],
-								"type": "text/javascript",
-								"packages": {}
-							}
-						}
-					],
-					"id": "31848622-8dda070a-b0fe-4be0-83a4-4618784c6f9d",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n   \"user\": {\r\n  \"name\": \"{{name}}\",\r\n  \"email\": \"{{email}}\",\r\n  \"password\": \"{{password}}\",\r\n  \"avatarUrl\":\"{{avatarurl}}\"\r\n    }\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://{{localhost}}/api/auth/users/register",
-							"protocol": "http",
-							"host": [
-								"{{localhost}}"
-							],
-							"path": [
-								"api",
-								"auth",
-								"users",
-								"register"
-							]
-						}
 					},
 					"response": []
 				},
