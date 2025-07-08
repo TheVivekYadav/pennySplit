@@ -14,6 +14,7 @@
 						{
 							"listen": "test",
 							"script": {
+								"id": "02ea6e3e-73ce-473a-9780-2fb8b9adde61",
 								"exec": [
 									"pm.test(\"Response status code is 200\", function () {",
 									"    pm.expect(pm.response.code).to.equal(200);",
@@ -61,7 +62,8 @@
 									"    }, \"Email format is invalid\");",
 									"});"
 								],
-								"type": "text/javascript"
+								"type": "text/javascript",
+								"packages": {}
 							}
 						}
 					],
@@ -77,7 +79,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n   \"user\": {\r\n  \"name\": \"person1\",\r\n  \"email\": \"person2@example.com\",\r\n  \"password\": \"8318940526@^Aman\",\r\n  \"avatarUrl\":\"https://thevivekyadav.me/images/img1\"\r\n    }\r\n}",
+							"raw": "{\r\n   \"user\": {\r\n  \"name\": \"{{name}}\",\r\n  \"email\": \"person2@example.com\",\r\n  \"password\": \"8318940526@^Aman\",\r\n  \"avatarUrl\":\"https://thevivekyadav.me/images/img1\"\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
