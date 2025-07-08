@@ -993,7 +993,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"groupId\": \"685434c6fb08d62904cfb74e\",\r\n  \"paidTo\": \"6854322367deced98f420f66\",\r\n  \"amount\": 10\r\n}\r\n"
+							"raw": "{\r\n  \"groupId\": \"{{groupId}}\",\r\n  \"paidTo\": \"{{userId}}\",\r\n  \"amount\": 10\r\n}\r\n"
 						},
 						"url": {
 							"raw": "http://{{localhost}}/api/groups/{{groupId}}/debts",
