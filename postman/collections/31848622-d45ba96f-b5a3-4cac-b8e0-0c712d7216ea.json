@@ -807,7 +807,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"userIds\": [\"{{userId1}}\", \"{{userId2}}\"]\r\n}",
+							"raw": "{\r\n    \"userIds\": [\"{{userId1}}\"]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -907,16 +907,15 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/groups/{{value}}",
+							"raw": "http://{{localhost}}/api/groups/{{groupId}}",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"{{localhost}}"
 							],
-							"port": "8080",
 							"path": [
 								"api",
 								"groups",
-								"{{value}}"
+								"{{groupId}}"
 							]
 						}
 					},
