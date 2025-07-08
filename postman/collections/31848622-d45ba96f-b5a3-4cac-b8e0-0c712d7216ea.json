@@ -807,7 +807,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"userIds\": [\"{{userId1}}\"]\r\n}",
+							"raw": "{\r\n    \"userIds\": [\"{{userId1}}\", \"{{userId2}}\"]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
