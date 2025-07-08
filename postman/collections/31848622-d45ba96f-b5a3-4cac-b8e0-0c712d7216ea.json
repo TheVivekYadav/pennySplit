@@ -930,14 +930,19 @@
 						"disableBodyPruning": true
 					},
 					"request": {
-						"method": "POST",
+						"method": "PUT",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n   \"name\": \"Trip to Manali\"\r\n}"
+							"raw": "{\r\n   \"name\": \"Trip to Manali\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/groups/684c3a8dd777d8c0b19839b4",
+							"raw": "http://localhost:8080/api/groups/{{groupId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -946,7 +951,7 @@
 							"path": [
 								"api",
 								"groups",
-								"684c3a8dd777d8c0b19839b4"
+								"{{groupId}}"
 							]
 						}
 					},
