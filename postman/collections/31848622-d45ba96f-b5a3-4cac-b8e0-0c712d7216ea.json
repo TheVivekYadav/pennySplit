@@ -996,16 +996,15 @@
 							"raw": "{\r\n  \"groupId\": \"685434c6fb08d62904cfb74e\",\r\n  \"paidTo\": \"6854322367deced98f420f66\",\r\n  \"amount\": 10\r\n}\r\n"
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/groups/685519b15a6800e1cdbdf1d9/debts",
+							"raw": "http://{{localhost}}/api/groups/{{groupId}}/debts",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"{{localhost}}"
 							],
-							"port": "8080",
 							"path": [
 								"api",
 								"groups",
-								"685519b15a6800e1cdbdf1d9",
+								"{{groupId}}",
 								"debts"
 							]
 						}
