@@ -16,7 +16,7 @@ const server = express();
 
 server.use(express.json());
 server.use(cookieParser());
-server.use(cors({ origin: "http://localhost:5173", credentials: true }));
+server.use(cors({ origin: ["http://localhost:5173", "penny-split-frontend.vercel.app", "https://penny-split-frontend-kbl27ozqj-vivek-yadav-s-projects-9ea0956c.vercel.app"], credentials: true }));
 // user routes
 server.use("/api/auth/users", userRoutes);
 server.use("/api/groups", groupRoutes);
