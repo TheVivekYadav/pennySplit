@@ -137,8 +137,8 @@
 							}
 						},
 						"url": {
-							"raw": "http://{{localhost}}/api/auth/users/login",
-							"protocol": "http",
+							"raw": "https://{{localhost}}/api/auth/users/login",
+							"protocol": "https",
 							"host": [
 								"{{localhost}}"
 							],
@@ -994,7 +994,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"groupId\": \"{{groupId}}\",\r\n  \"paidTo\": \"{{userId}}\",\r\n  \"amount\": 10\r\n}\r\n"
+							"raw": "{\r\n  \"groupId\": \"{{groupId}}\",\r\n  \"paidTo\": \"{{userId}}\"\r\n}\r\n"
 						},
 						"url": {
 							"raw": "http://{{localhost}}/api/groups/{{groupId}}/debts",
