@@ -137,8 +137,8 @@
 							}
 						},
 						"url": {
-							"raw": "https://{{localhost}}/api/auth/users/login",
-							"protocol": "https",
+							"raw": "http://{{localhost}}/api/auth/users/login",
+							"protocol": "http",
 							"host": [
 								"{{localhost}}"
 							],
@@ -1288,8 +1288,29 @@
 						"disableBodyPruning": true
 					},
 					"request": {
-						"method": "GET",
-						"header": []
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userId\":\"686c6efe4bf5394e2774db83\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{localhost}}/api/contacts/add",
+							"protocol": "http",
+							"host": [
+								"{{localhost}}"
+							],
+							"path": [
+								"api",
+								"contacts",
+								"add"
+							]
+						}
 					},
 					"response": []
 				}
