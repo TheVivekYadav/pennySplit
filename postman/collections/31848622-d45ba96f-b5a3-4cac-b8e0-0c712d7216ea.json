@@ -1315,7 +1315,7 @@
 					"response": []
 				},
 				{
-					"name": "New Request",
+					"name": "myFriends",
 					"id": "31848622-0dd04c9b-9428-40a5-b3d9-4676f43be37d",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
