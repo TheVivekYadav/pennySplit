@@ -1280,7 +1280,20 @@
 		},
 		{
 			"name": "Contact",
-			"item": [],
+			"item": [
+				{
+					"name": "New Request",
+					"id": "31848622-0b9e6a0e-5b09-4225-b082-7a4031eccaac",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				}
+			],
 			"id": "31848622-5db3be51-2145-4b69-97ea-a3ca737094e7"
 		}
 	],
