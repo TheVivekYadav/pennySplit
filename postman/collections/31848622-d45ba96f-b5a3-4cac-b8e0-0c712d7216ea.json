@@ -1282,7 +1282,7 @@
 			"name": "Contact",
 			"item": [
 				{
-					"name": "New Request",
+					"name": "addFriend",
 					"id": "31848622-0b9e6a0e-5b09-4225-b082-7a4031eccaac",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
