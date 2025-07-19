@@ -486,6 +486,7 @@
 						{
 							"listen": "test",
 							"script": {
+								"id": "b39a59f2-b1c7-4bb4-a11d-dad056ccfcf9",
 								"exec": [
 									"pm.test(\"Response status code is 404\", function () {",
 									"    pm.expect(pm.response.status).to.eql(404);",
@@ -511,7 +512,8 @@
 									"    pm.expect(pm.request.url.toString()).to.equal(\"http://localhost:8080/api/auth/users\");",
 									"});"
 								],
-								"type": "text/javascript"
+								"type": "text/javascript",
+								"packages": {}
 							}
 						}
 					],
@@ -527,7 +529,7 @@
 							"raw": "{\r\n   \"name\": \"Group1\"\r\n}"
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/auth/users",
+							"raw": "http://localhost:8080/api/auth/get-all-users",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -536,7 +538,7 @@
 							"path": [
 								"api",
 								"auth",
-								"users"
+								"get-all-users"
 							]
 						}
 					},
@@ -1322,7 +1324,23 @@
 					},
 					"request": {
 						"method": "GET",
-						"header": []
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userId\":\"686c6efe4bf5394e2774db83\"\r\n}"
+						},
+						"url": {
+							"raw": "http://{{localhost}}/api/contacts/",
+							"protocol": "http",
+							"host": [
+								"{{localhost}}"
+							],
+							"path": [
+								"api",
+								"contacts",
+								""
+							]
+						}
 					},
 					"response": []
 				}
