@@ -1279,16 +1279,9 @@
 			"id": "31848622-8bd53766-6671-447d-98f2-8986646aac27"
 		},
 		{
-			"name": "New Request",
-			"id": "31848622-b3baeba6-2ead-4b16-b736-623eb7d5f5a1",
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true
-			},
-			"request": {
-				"method": "GET",
-				"header": []
-			},
-			"response": []
+			"name": "Contact",
+			"item": [],
+			"id": "31848622-5db3be51-2145-4b69-97ea-a3ca737094e7"
 		}
 	],
 	"event": [
