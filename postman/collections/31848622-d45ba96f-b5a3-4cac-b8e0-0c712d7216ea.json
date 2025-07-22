@@ -1380,7 +1380,7 @@
 					"response": []
 				},
 				{
-					"name": "New Request",
+					"name": "get friend request",
 					"id": "31848622-4a372aa2-e027-42a4-94bf-22c5aa5aa78a",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
