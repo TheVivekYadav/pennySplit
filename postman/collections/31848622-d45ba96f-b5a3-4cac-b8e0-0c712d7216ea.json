@@ -1356,7 +1356,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "",
+							"raw": "{toUserId:\"687bb8ce3a5f3bfd5413539f\"}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1364,7 +1364,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/contacts/friend-request",
+							"raw": "http://localhost:8080/api/contacts/friend-requests",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -1373,7 +1373,7 @@
 							"path": [
 								"api",
 								"contacts",
-								"friend-request"
+								"friend-requests"
 							]
 						}
 					},
