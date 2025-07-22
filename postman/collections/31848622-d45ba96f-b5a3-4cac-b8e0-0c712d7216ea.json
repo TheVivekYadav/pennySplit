@@ -1356,7 +1356,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{toUserId:\"687bb8ce3a5f3bfd5413539f\"}",
+							"raw": "{\"toUserId\": \"687bb8ce3a5f3bfd5413539f\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
