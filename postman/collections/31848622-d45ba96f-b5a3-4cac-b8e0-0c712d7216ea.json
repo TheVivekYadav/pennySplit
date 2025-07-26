@@ -1352,11 +1352,11 @@
 						"disableBodyPruning": true
 					},
 					"request": {
-						"method": "GET",
+						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\"toUserId\": \"687bb8ce3a5f3bfd5413539f\"\r\n}",
+							"raw": "{\r\n    \"toUserId\": \"687bb8ce3a5f3bfd5413539f\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1387,7 +1387,23 @@
 					},
 					"request": {
 						"method": "GET",
-						"header": []
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userId\":\"686c6efe4bf5394e2774db83\"\r\n}"
+						},
+						"url": {
+							"raw": "http://{{localhost}}/api/contacts/friend-request",
+							"protocol": "http",
+							"host": [
+								"{{localhost}}"
+							],
+							"path": [
+								"api",
+								"contacts",
+								"friend-request"
+							]
+						}
 					},
 					"response": []
 				}
