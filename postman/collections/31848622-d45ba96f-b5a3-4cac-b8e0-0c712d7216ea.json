@@ -1346,7 +1346,7 @@
 					"response": []
 				},
 				{
-					"name": "friend request",
+					"name": "send friend request",
 					"id": "31848622-3abbe31e-ec6d-4f70-86d0-073d4dec881d",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
