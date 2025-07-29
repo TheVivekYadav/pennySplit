@@ -119,6 +119,9 @@ const login = async (req, res) => {
 const refreshAccessToken = async (req, res) => {
   const { refreshToken } = req.cookies;
 
+  // Log the incoming refresh token for debugging
+  console.log("Received refreshToken cookie:", refreshToken);
+
   if (!refreshToken) {
     return res.status(401).json({ message: "Refresh token missing" });
   }
@@ -126,10 +129,13 @@ const refreshAccessToken = async (req, res) => {
   try {
     const user = await User.findByRefreshToken(refreshToken);
     if (!user) {
-      return res.status(404).json({ message: "User not found" });
+      console.log('User not found for provided refresh token');
+      return res.status(404).json({ message: "User not found for refresh token" });
     }
     const tokens = user.generateAuthTokens();
-
+    if (!tokens) {
+      return res.status(500).json({ message: "Failed to generate tokens" });
+    }
     res
       .cookie("token", tokens.accessToken, {
         httpOnly: true,
@@ -144,7 +150,9 @@ const refreshAccessToken = async (req, res) => {
       .status(200)
       .json({ message: "Token refreshed", status: 1 });
   } catch (err) {
-    return res.status(403).json({
+    // Log error details for debugging
+    console.error("Error in refreshAccessToken:", err);
+    return res.status(401).json({
       message: "Invalid or expired refresh token",
       error: err.message,
     });
@@ -152,16 +160,21 @@ const refreshAccessToken = async (req, res) => {
 }
 
 const verify = async (req, res) => {
-  const accessToken = req.cookies.token;
-  if (!accessToken) {
-    return res.status(401).json({ message: "Access token missing" });
-  }
-  const user = await User.findByAccessToken(accessToken);
-  if (!user) {
-    return res.status(404).json({ message: "User not found" });
-  }
+  try {
+    const accessToken = req.cookies.token;
+    if (!accessToken) {
+      return res.status(401).json({ message: "Access token missing" });
+    }
+    const user = await User.findByAccessToken(accessToken);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
 
-  res.status(200).json({ message: "success", user });
+    res.status(200).json({ message: "success", user });
+  } catch (error) {
+    console.error("Error in verify:", error);
+    return res.status(500).json({ message: "Server error", error: error.message });
+  }
 }
 
 const logout = (req, res) => {

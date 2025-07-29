@@ -52,6 +52,7 @@ userSchema.methods.incrementLoginCount = async function () {
   return await this.save();
 };
 
+console.log(typeof process)
 // Generate JWT
 userSchema.methods.generateAuthTokens = function () {
   try {
@@ -76,16 +77,19 @@ userSchema.methods.generateAuthTokens = function () {
 userSchema.statics.findByAccessToken = async function (token) {
   try {
     if (!token || typeof token !== "string" || !token.trim().startsWith("ey")) {
-      throw new Error("Invalid token format");
+      return null;
     }
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     if (!decoded || !decoded._id) {
-      throw new Error("Invalid token payload");
+      throw null;
     }
     return await this.findOne({ _id: decoded._id });
   } catch (err) {
-    console.error("Error in findByAccessToken:", err.message);
+    if (err.name === 'TokenExpiredError' || err.name === 'JsonWebTokenError') {
+      console.error("Authentication error:", err.message);
+      return null;
+    }
     throw err;
   }
 };
@@ -93,16 +97,24 @@ userSchema.statics.findByAccessToken = async function (token) {
 userSchema.statics.findByRefreshToken = async function (token) {
   try {
     if (!token || typeof token !== "string" || !token.trim().startsWith("ey")) {
-      throw new Error("Invalid token format");
+      throw new Error("Invalid refresh token format");
     }
-
     const decoded = jwt.verify(token, process.env.JWT_REFRESH_SECRET);
+    // Optionally log decoded payload for debugging
+    // console.log("Decoded refresh token payload:", decoded);
     if (!decoded || !decoded._id) {
-      throw new Error("Invalid token payload");
+      throw new Error("Invalid refresh token payload");
     }
     return await this.findOne({ _id: decoded._id });
   } catch (err) {
-    console.error("Error in findByRefreshToken:", err.message);
+    // More specific error logging
+    if (err.name === "TokenExpiredError") {
+      console.error("Refresh token expired:", err.message);
+    } else if (err.name === "JsonWebTokenError") {
+      console.error("Invalid refresh token signature:", err.message);
+    } else {
+      console.error("Error in findByRefreshToken:", err.message);
+    }
     throw err;
   }
 };

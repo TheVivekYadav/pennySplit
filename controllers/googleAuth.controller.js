@@ -74,7 +74,7 @@ export const googleAuthCallback = async (req, res) => {
                 tokens,
             });
         } else {
-            res.redirect(`${process.env.FRONTEND_URL}/dashboard`);
+            res.redirect(`http://localhost:5173/dashboard`);
         }
     } catch (err) {
         console.error("Google login failed:", err.message);

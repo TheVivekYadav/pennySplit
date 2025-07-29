@@ -13,7 +13,7 @@ import { isLoggedIn } from "../middleware/auth.js";
 
 const router = express.Router();
 
-router.get("/", isLoggedIn, listAllGroups); //get all grp user belong need to add middleware to get userId
+router.get("/", isLoggedIn, listAllGroups);
 router.post("/create", isLoggedIn, createGroup);
 router.get("/:id", isLoggedIn, getGroupbyId);
 router.put("/:id", isLoggedIn, updateGroup);
