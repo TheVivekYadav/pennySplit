@@ -17,7 +17,7 @@ const server = express();
 server.use(express.json());
 server.use(cookieParser());
 server.use(cors({
-    origin: [ "http://localhost:5173" ],
+    origin: [ "http://localhost:5173","https://mvpfev2.vercel.app" ],
     credentials: true
 }));
 // user routes

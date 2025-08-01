@@ -59,12 +59,12 @@ const login = async (req, res) => {
     const user = await User.findOne({ email });
 
     if (!user) {
-      return res.status(404).json({ message: "User does not exist" });
+      return res.status(401).json({ message: "Invalid email or password" });
     }
 
     const isMatch = await user.comparePassword(password);
     if (!isMatch) {
-      return res.status(404).json({ message: "Invalid email or password" });
+      return res.status(401).json({ message: "Invalid email or password" });
     }
 
     const tokens = user.generateAuthTokens();
@@ -100,7 +100,7 @@ const login = async (req, res) => {
         })
         .status(200)
         .json({
-          message: "Login Success", status: 1, accessToken: tokens.accessToken, refreshToken: tokens.refreshToken, user: {
+          message: "Login Success", status: 1, user: {
             id: user._id,
             name: user.name,
             email: user.email,
