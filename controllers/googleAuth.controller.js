@@ -53,12 +53,12 @@ export const googleAuthCallback = async (req, res) => {
         res
             .cookie("token", tokens.accessToken, {
                 httpOnly: true,
-                sameSite: "strict",
+                sameSite: "None",
                 secure: process.env.NODE_ENV === "production",
             })
             .cookie("refreshToken", tokens.refreshToken, {
                 httpOnly: true,
-                sameSite: "strict",
+                sameSite: "None",
                 secure: process.env.NODE_ENV === "production",
             });
 
