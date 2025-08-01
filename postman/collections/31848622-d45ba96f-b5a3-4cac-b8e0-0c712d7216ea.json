@@ -137,8 +137,8 @@
 							}
 						},
 						"url": {
-							"raw": "http://{{localhost}}/api/auth/users/login",
-							"protocol": "http",
+							"raw": "https://{{localhost}}/api/auth/users/login",
+							"protocol": "https",
 							"host": [
 								"{{localhost}}"
 							],
