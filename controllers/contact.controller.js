@@ -2,54 +2,50 @@ import { Contacts } from "../models/contact.model.js";
 import User from "../models/user.model.js";
 import mongoose from "mongoose";
 
-// Friend request status: "pending", "accepted"
-const addContact = async (req, res) => {
-
+const acceptFriendRequest = async (req, res) => {
     const session = await mongoose.startSession();
     session.startTransaction();
-
     try {
-        const {fromUserId} = req.body;
+        const { fromUserId } = req.body;
         const toUserId = req.user._id;
+
         if (!toUserId) {
             return res.status(401).json({ message: "Please login first." });
         }
         if (fromUserId === toUserId.toString()) {
-            return res.status(400).json({ message: "Can't add yourself as contact." });
+            return res.status(400).json({ message: "Invalid request." });
         }
 
-        // Check if contact already exists
-        const recipient = await Contacts.findOne({ userId: toUserId}).session(session);
-
-        if (recipient && recipient.contacts.includes(fromUserId)) {
+        // Check if the request actually exists before processing
+        const recipientContacts = await Contacts.findOne({ userId: toUserId }).session(session);
+        if (!recipientContacts || !recipientContacts.requests.includes(fromUserId)) {
             await session.abortTransaction();
-            await session.endSession();
-            return res.status(400).json({ message: "Friend request not found." });
+            session.endSession();
+            return res.status(404).json({ message: "Friend request not found." });
         }
 
-
-        // 1. Update recipient's contacts
+        // 1. Update recipient: remove from 'requests' and add to 'contacts'
         await Contacts.updateOne(
             { userId: toUserId },
             { $pull: { requests: fromUserId }, $addToSet: { contacts: fromUserId } },
-            { session } // Pass the session to the query
+            { session }
         );
-        // 2. Update sender: add to contacts
+
+        // 2. Update sender: add recipient to their 'contacts'
         await Contacts.updateOne(
             { userId: fromUserId },
             { $addToSet: { contacts: toUserId } },
-            { upsert: true, session } // Also pass the session here
+            { upsert: true, session }
         );
 
-        // If both operations succeed, commit the transaction
         await session.commitTransaction();
-        await session.endSession();
+        session.endSession();
 
-        res.status(200).json({ message: "Friend request accepted", recipient  });
+        res.status(200).json({ message: "Friend request accepted" });
     } catch (err) {
         await session.abortTransaction();
-        await session.endSession();
-        res.status(500).json({ message: "backend error", error: err.message });
+        session.endSession();
+        res.status(500).json({ message: "Server error", error: err.message });
     }
 };
 
@@ -121,29 +117,6 @@ const getFriendRequests = async (req, res) => {
     }
 }
 
-const acceptFriendRequest = async (req, res) => {
-    try {
-        const { fromUserId } = req.body;
-        const toUserId = req.user._id;
-        if (!toUserId) {
-            return res.status(401).json({ message: "Please login first." });
-        }
-        // Remove from requests and add to contacts
-        await Contacts.updateOne(
-            { userId: toUserId },
-            { $pull: { requests: fromUserId }, $addToSet: { contacts: fromUserId } }
-        );
-        // Also add reciprocal contact
-        await Contacts.updateOne(
-            { userId: fromUserId },
-            { $addToSet: { contacts: toUserId } },
-            { upsert: true }
-        );
-        res.status(200).json({ message: "Friend request accepted" });
-    } catch (err) {
-        res.status(500).json({ message: "backend error", error: err.message });
-    }
-};
 
 const getContactList = async (req, res) => {
     try {
@@ -231,7 +204,6 @@ const removeContact = async (req, res) => {
 
 export {
     acceptFriendRequest,
-    addContact,
     getContactList,
     getFriendRequests,
     sendFriendRequest,
