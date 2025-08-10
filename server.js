@@ -1,8 +1,8 @@
 import cookieParser from "cookie-parser";
-
 import cors from 'cors';
 import dotenv from "dotenv";
 import express from "express";
+import morgan from "morgan";
 import balanceRoutes from "./routes/balance.routes.js";
 import contactRoutes from "./routes/contact.routes.js";
 import expenseRoutes from "./routes/expense.routes.js";
@@ -14,12 +14,16 @@ dotenv.config();
 
 const server = express();
 
+
 server.use(express.json());
 server.use(cookieParser());
 server.use(cors({
-    origin: [ "http://localhost:5173","https://mvpfev2.vercel.app", "https://frontend.thevivekyadav.me" ],
+    origin: ["http://localhost:5173", "https://mvpfev2.vercel.app", "https://frontend.thevivekyadav.me"],
     credentials: true
 }));
+
+server.use(morgan('dev'));
+
 // user routes
 server.use("/api/auth/users", userRoutes);
 server.use("/api/groups", groupRoutes);
