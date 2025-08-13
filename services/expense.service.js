@@ -23,12 +23,12 @@ export const handleCreateExpense = async (userCreating, expenseDetails) => {
 
     const splitType = group.equal_type ? "equal" : "percentage";
 
-    if (splitType === "percentage") {
-        const total = splitAmong.reduce((sum, e) => sum + e.percentage, 0);
-        if (total !== 100) {
-            throw { status: 400, message: "Split percentages must add up to 100." };
-        }
-    }
+    // if (splitType === "percentage") {
+    //     const total = splitAmong.reduce((sum, e) => sum + e.percentage, 0);
+    //     if (total !== 100) {
+    //         throw { status: 400, message: "Split percentages must add up to 100." };
+    //     }
+    // }
 
     const newExpense = await Expense.create({
         ...expenseDetails,
